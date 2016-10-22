@@ -157,3 +157,7 @@ class SudokuPuzzle(object):
         for b_num in range(9):
             block_data = set(self.get_block(b_num))
             block_data.remove(0)
+            for row in self.get_block_rows(b_num):
+                for col in self.get_block_columns(b_num):
+                    for val in block_data:
+                        self.remove_pvalue(row, col, val)
