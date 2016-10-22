@@ -67,10 +67,8 @@ class SudokuPuzzle(object):
             col_start = 6
         to_return = []
         for row in range(row_start, row_start + 3):
-            vals = []
             for col in range(col_start , col_start +3):
-                vals.append(self.get_value(row, col))
-            to_return.append(vals)
+                to_return.append(self.get_value(row, col))
         return to_return
 
     def check_row(self, row):
@@ -81,11 +79,16 @@ class SudokuPuzzle(object):
         """Check to see if the col is valid."""
         return len(set(self.get_col(col)).intersection(self.valid)) == 9
 
+    def check_block(self, block_num):
+        """Check to see if the block is valid."""
+        return len(set(self.get_block(block_num)).intersection(self.valid)) == 9
+
     def check_puzzle(self):
         """Checks to see if the puzzle is valid."""
-        rows = [check_row(row) for row in range(9)]
-        cols = [check_col(col) for col in range(9)]
-        return all(rows) and all(cols)
+        rows = [self.check_row(row) for row in range(9)]
+        cols = [self.check_col(col) for col in range(9)]
+        blocks = [self.check_block(block) for block in range(9)]
+        return all(rows) and all(cols) and all(blocks)
 
     def read_puzzle(self, path):
         """Read the file given and set it as the puzzle."""
