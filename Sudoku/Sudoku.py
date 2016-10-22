@@ -31,6 +31,8 @@ class SudokuPuzzle(object):
     """
     def __init__(self):
         self.values = [[0 for _ in range(9)] for _ in range(9)]
+        self.pvalues = {(row, col):set([_ for _ in range(1, 10)])
+                               for row in range(9) for col in range(9)}
         self.valid = set([_ for _ in range(1, 10)])
 
     def set_value(self, row, col, value):
@@ -49,28 +51,37 @@ class SudokuPuzzle(object):
         """Returns the values for the column."""
         return self.values[row]
 
+    def get_block_rows(self, block_num):
+        """Return the rows for the given block."""
+        if 0 <= block_num <= 2:
+            rows = [_ for _ in range(3)]
+        elif 3 <= block_num <= 5:
+            rows = [_ for _ in range(3, 6)]
+        else:
+            rows = [_ for _ in range(6, 9)]
+        return rows
+
+    def get_block_columns(self, block_num):
+        """Return the columns for the given block"""
+        if block_num in [0, 3, 6]:
+            cols = [_ for _ in range(3)]
+        elif block_num in [1, 4, 7]:
+            cols = [_ for _ in range(3, 6)]
+        else:
+            cols = [_ for _ in range(6, 9)]
+        return cols
+
     def get_block(self, block_num):
         """Returns the values in a given block.
         The top left is 0 and the bottom right is 8.
         """
         if block_num < 0 or block_num > 9:
             raise SudokuBlockError("Not a valid block must be between 0 & 8.")
-
-        if 0 <= block_num <= 2:
-            row_start = 0
-        elif 3 <= block_num <= 5:
-            row_start = 3
-        else:
-            row_start = 6
-        if block_num in [0, 3, 6]:
-            col_start = 0
-        elif block_num in [1, 4, 7]:
-            col_start = 3
-        else:
-            col_start = 6
+        rows = self.get_block_rows(block_num)
+        cols = self.get_block_columns(block_num)
         to_return = []
-        for row in range(row_start, row_start + 3):
-            for col in range(col_start , col_start +3):
+        for row in rows:
+            for col in cols:
                 to_return.append(self.get_value(row, col))
         return to_return
 
@@ -108,3 +119,41 @@ class SudokuPuzzle(object):
                         self.set_value(row, col, val)
             except SudokuValueError as e:
                 print(e, "invalid input")
+
+    def update_pvalues(self):
+        """Updates the pvalues for each cell in the puzzle."""
+        for row in range(9):
+            for col in range(9):
+                val = self.get_value(row, col)
+                if val != 0:
+                    self.pvalues[(row, col)] = {val}
+
+    def remove_pvalue(self, row, col, value):
+        """Removes a value from the set of possible values for a cell."""
+        cell = self.pvalues[(row, col)]
+        if value in cell and len(cell) > 1:
+            self.pvalues[(row, col)].remove(value)
+
+    def deduce_row_pvalues(self):
+        """Remove p values from a cell that are in a row"""
+        for row in range(9):
+            row_data = set(self.get_row(row))
+            row_data.remove(0)
+            for col in range(9):
+                for val in row_data:
+                    self.remove_pvalue(row, col, val)
+
+    def deduce_col_pvalues(self):
+        """Remove p values from a cell that are in a row"""
+        for col in range(9):
+            col_data = set(self.get_col(col))
+            col_data.remove(0)
+            for row in range(9):
+                for val in col_data:
+                    self.remove_pvalue(row, col, val)
+
+    def deduce_block_pvalues(self):
+        """Remove p values from a cell that are in a row"""
+        for b_num in range(9):
+            block_data = set(self.get_block(b_num))
+            block_data.remove(0)
