@@ -9,12 +9,9 @@ def main(args):
     puzzle.update_pvalues()
     puzzle.deduce_row_pvalues()
     puzzle.deduce_col_pvalues()
+    puzzle.deduce_block_pvalues()
 
-
-    # for b_num in range(9):
-    #     block =
-
-    # pprint(puzzle.pvalues)
+    pprint(puzzle.pvalues)
 
 def cli():
     """Command line interface for search algorithm."""
