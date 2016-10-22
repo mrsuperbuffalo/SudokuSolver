@@ -25,6 +25,9 @@ class SudokuPuzzle(object):
         H1 H2 H3| H4 H5 H6| H7 H8 H9
         I1 I2 I3| I4 I5 I6| I7 I8 I9
 
+        All get methods return values starting the top left and either read
+        from left to right or top to bottom or a combination of both.
+
     """
     def __init__(self):
         self.values = [[0 for _ in range(9)] for _ in range(9)]
