@@ -161,3 +161,36 @@ class SudokuPuzzle(object):
                 for col in self.get_block_columns(b_num):
                     for val in block_data:
                         self.remove_pvalue(row, col, val)
+
+    def print_values(self):
+        """Print a pretty version of the puzzle."""
+        output = []
+        for ii, row in enumerate(self.values):
+            row_str = str(row).strip('[]').replace(',', '').replace('0','.')
+            row_str = row_str[:6] + '|' + row_str[6:12] + '|' + row_str[12:]
+            if ii > 0 and ii % 3 == 0:
+                output.append('------+------+------')
+            output.append(row_str)
+        print('\n'.join(output))
+
+    def print_pvalues(self):
+        """print a pretty version of the pvalues."""
+        max_col_width = 1
+        for val in self.pvalues.values():
+            max_col_width = max(len(val), max_col_width)
+        f_str = '{:^' + str(max_col_width) + '}'
+        output = []
+        for row in range(9):
+            final_str = ''
+            for col in range(9):
+                p_str = str(self.pvalues[(row, col)])
+                p_str = p_str.replace(', ', '').strip('{}')
+                x_str = f_str.format(p_str) + ' '
+                if col > 0 and col % 3 == 0:
+                    final_str += '|'
+                final_str += x_str
+            if row > 0 and row % 3 == 0:
+                spacer = '-'*(max_col_width + 1)*3
+                output.append(spacer + '|' + spacer + '|' + spacer)
+            output.append(final_str)
+        print('\n'.join(output))
