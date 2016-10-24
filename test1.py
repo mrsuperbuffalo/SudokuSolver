@@ -10,8 +10,11 @@ def main(args):
     puzzle.deduce_row_pvalues()
     puzzle.deduce_col_pvalues()
     puzzle.deduce_block_pvalues()
+    # pprint(sorted(puzzle.pvalues.items(), key=lambda x: len(x[1])))
+    # puzzle.print_values()
+    puzzle.print_pvalues()
+    # pprint(puzzle.pvalues)
 
-    pprint(puzzle.pvalues)
 
 def cli():
     """Command line interface for search algorithm."""
