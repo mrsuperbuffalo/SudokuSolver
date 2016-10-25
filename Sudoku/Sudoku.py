@@ -161,6 +161,29 @@ class SudokuPuzzle(object):
                 for col in self.get_block_columns(b_num):
                     for val in block_data:
                         self.remove_pvalue(row, col, val)
+            # for row in self.get_block_rows(b_num):
+            #     for col in self.get_block_columns(b_num):
+            #         cell_data = self.pvalues[(row, col)]
+            #         union = set()
+            #         for orow in self.get_block_rows(b_num):
+            #             for ocol in self.get_block_columns(b_num):
+            #                 other_p = self.pvalues[(orow, ocol)]
+            #                 if orow == row and ocol == col:
+            #                     continue
+            #                 union = union.union(other_p)
+            #         diff = cell_data.difference(union)
+            #         if len(diff) == 1:
+            #             for val in cell_data.intersection(union):
+            #                 self.remove_pvalue(row, col, val)
+
+    def assign_singles(self):
+        """assign values where pvalues are a single value"""
+        for row in range(9):
+            for col in range(9):
+                p_val = self.pvalues[(row, col)].copy()
+                val = self.get_value(row, col)
+                if len(p_val) == 1 and val == 0 :
+                    self.set_value(row, col, p_val.pop())
 
     def print_values(self):
         """Print a pretty version of the puzzle."""
