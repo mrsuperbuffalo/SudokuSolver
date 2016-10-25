@@ -7,14 +7,18 @@ def main(args):
     puzzle = SudokuPuzzle()
     puzzle.read_puzzle(args.input)
     puzzle.update_pvalues()
-    puzzle.deduce_row_pvalues()
-    puzzle.deduce_col_pvalues()
-    puzzle.deduce_block_pvalues()
-    # pprint(sorted(puzzle.pvalues.items(), key=lambda x: len(x[1])))
-    # puzzle.print_values()
-    puzzle.print_pvalues()
-    # pprint(puzzle.pvalues)
 
+    for _ in range(9):
+        puzzle.deduce_row_pvalues()
+        puzzle.deduce_col_pvalues()
+        puzzle.deduce_block_pvalues()
+        puzzle.assign_singles()
+    puzzle.print_pvalues()
+    comb_list = [len(ss) for ss in puzzle.pvalues.values()]
+    comb = 1
+    for num in comb_list:
+        comb *= num
+    print('{:,}'.format(comb))
 
 def cli():
     """Command line interface for search algorithm."""
