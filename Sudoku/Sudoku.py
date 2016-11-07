@@ -28,6 +28,12 @@ class SudokuPuzzle(object):
         All get methods return values starting the top left and either read
         from left to right or top to bottom or a combination of both.
 
+        Values are to be used for the solved portion of the puzzle. pvalues
+        represent the possible values for a cell. A cell represents one of
+        the portions of a block. There are several blocks with the top left
+        being the zeroth block and moving left to right and top to bottom.
+        There is a total of 9 blocks(0-8).
+
     """
     def __init__(self):
         self.values = [[0 for _ in range(9)] for _ in range(9)]
