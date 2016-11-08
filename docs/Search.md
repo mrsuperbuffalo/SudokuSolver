@@ -40,6 +40,40 @@ What does it mean to act on a decision?
   accepted decisions of the search.
 
 
+
+### Putting it together
+
+A constraint holds decisions and limits what is decisions can be made by changing
+the availability of a decision by changing the state of other decisions that
+haven't made it into the solution. So what does that mean? A constraint must be
+able to hold decisions and much react hitting its limit. A constraint would need
+to be able to know when to apply limiting ability based on some of it's accepted
+(possibly rejected state) decisions. I seem to be beating around the bush when
+it comes to determining constraint limits. A constraint can attempt to limit
+decisions by saying that at most or at least X of these decisions can be accepted.
+I didn't want to write it in those terms in case I was limiting what a constraint
+could cover. So how do constraints come together to limit a solution? I think I
+should probably walk through
+
+
+42758.19.
+....326..
+.5.9142..
+28....3..
+.4.3.5.1.
+..8....29
+..1649.8.
+..285....
+.64.71935
+
+
+
+
+
+
+
+
+
 ---Other stuff---
 
 
